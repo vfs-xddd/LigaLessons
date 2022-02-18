@@ -2,6 +2,13 @@ package lesson_2.homework;
 
 public class Tasks {
     public static void main(String[] args) {
+        System.out.println("==================================\n@task_1");
+        task_1();
+        System.out.println("==================================\n@task_2");
+        task_2();
+        System.out.println("==================================\n@task_3");
+        task_3();
+        System.out.println("\n==================================");
     }
 
     /**
@@ -11,13 +18,13 @@ public class Tasks {
     public static void task_1() {
         int a = 1;
         String b = "1";
-//        if (a == b) {
-//            System.out.println("success");
-//        }
+        if (a == Integer.parseInt(b)) {
+            System.out.println("success");
+        }
 
-//        if (b.equals(a)) {
-//            System.out.println("success");
-//        }
+        if (b.equals(a+ "")) {
+            System.out.println("success");
+        }
     }
 
     /**
@@ -31,6 +38,7 @@ public class Tasks {
                     System.out.print(1);
                 case "two":
                     System.out.print(2);
+                    break;
                 case "three":
                     System.out.print(3);
                 default:
@@ -39,11 +47,12 @@ public class Tasks {
 
             switch (str.indexOf("o")) {
                 case 0:
-                case 1:
+                case 1: break;
                 case 2:
                     System.out.print(10);
             }
         }
+        System.out.println();
     }
 
     /**
@@ -54,11 +63,11 @@ public class Tasks {
      */
     public static void task_3() {
         for (int i = 0; i < 4; i++) {
-//            if (compare(i, ???) ??? decreaseAndCompare(i, ???) ??? incrementAndCompare(i, ???)) {
-//                System.out.print("4");
-//            } else if (decreaseAndCompare(???, i) ??? incrementAndCompare(???, i) ??? compare(???, i)) {
-//                System.out.print("8");
-//            }
+            if (compare(i, 1) & decreaseAndCompare(i, 0) & incrementAndCompare(i, 2)) {
+                System.out.print("4");
+            } else if (decreaseAndCompare(3, i) || incrementAndCompare(2, i) | compare(3, i)) {
+                System.out.print("8");
+            }
         }
 
     }
