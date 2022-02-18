@@ -1,5 +1,7 @@
 package lesson_2;
 
+import java.util.Arrays;
+
 public class CyclesTests {
     public static void main(String[] args) {
         continueTest();
@@ -45,6 +47,17 @@ public class CyclesTests {
         for (int i = 0; i < 15; i++) {
             if ((i % 2) == 0) continue;
             System.out.println(i);
+        }
+    }
+
+    public static void preElementInForEachTest() {
+        String[] strs = new String[]{"one", "two", "three"};
+        for (String text : strs) {
+            System.out.println(text);
+            int beforeElementIndex = Arrays.asList(strs).indexOf(text) - 1;
+            if (beforeElementIndex >= 0) {
+                System.out.println("before element is: " + strs[beforeElementIndex]);
+            }
         }
     }
 }
