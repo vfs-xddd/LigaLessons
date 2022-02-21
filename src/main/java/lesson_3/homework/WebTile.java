@@ -1,6 +1,8 @@
 package lesson_3.homework;
 
-public class WebTile extends Category{
+import lesson_3.homework.abc.Category;
+
+public class WebTile extends Category {
 
     @Override
     public void open() {
