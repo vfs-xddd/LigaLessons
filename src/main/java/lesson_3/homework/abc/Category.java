@@ -7,9 +7,35 @@ public abstract class Category {
     protected int height = 0;
     protected int border = 1;
     protected int background_color = 16777215;
+    protected String source;
 
-    public abstract void open();
+    public abstract void status();
 
+    protected Category(int width, int height) {
+        set_width(width);
+        set_height(height);
+    }
+
+    protected Category(int width, int height, String name) {
+        set_width(width);
+        set_height(height);
+        set_name(name);
+    }
+
+    protected Category(int width, int height, String name, String iconDescription) {
+        set_width(width);
+        set_height(height);
+        set_name(name);
+        set_iconDescription(iconDescription);
+    }
+
+    protected Category(int width, int height, String name, String iconDescription, String source) {
+        set_width(width);
+        set_height(height);
+        set_name(name);
+        set_iconDescription(iconDescription);
+        set_source(source);
+    }
 
     // getters $ setters default
     //=======================================================
@@ -53,7 +79,15 @@ public abstract class Category {
         this.name = name;
     }
 
-    protected String get_iconDescription() {
+    protected String get_source() {
+        return this.source;
+    }
+
+    public void set_source(String source) {
+        this.source = source;
+    }
+
+    public String get_iconDescription() {
         return this.iconDescription;
     }
 
