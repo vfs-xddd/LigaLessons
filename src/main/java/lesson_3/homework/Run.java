@@ -24,6 +24,19 @@ public class Run {
         container.on_focus();
         System.out.println("Объекты в контейнере: " + container.show_obj_list());
         System.out.println("Объекты в контейнере: " + container2.show_obj_list());
-
+        System.out.println("===Test WebContainerMenuElem===============================================");
+        WebContainerMenuElem elem1 = new WebContainerMenuElem(100, 25, "Бытовая Техника", "Элемент меню <Бытовая ехника>");
+        WebContainerMenuElem elem2 = new WebContainerMenuElem(100, 25, "Телевизоры", "Элемент меню <Телевизоры>", "Разные виды телевизоров");
+        elem1.status();
+        System.out.println(elem1.type);
+        elem1.show_description();
+        elem1.on_click();
+        elem1.on_focus();
+        elem1.show_my_list();
+        elem2.show_my_list();
+        System.out.println("===Test WebContainerMenu===============================================");
+        WebContainerMenu container_menu = new WebContainerMenu(1000, 200, "Контейнер меню", "Контейнер для элементов меню");
+        container_menu.add_obj(elem1);
+        System.out.println("Объекты в контейнере: " + container_menu.show_obj_list());
     }
 }
