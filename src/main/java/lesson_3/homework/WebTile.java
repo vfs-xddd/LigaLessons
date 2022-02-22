@@ -22,6 +22,11 @@ public class WebTile extends Category implements Element {
         super(width, height, name, iconDescription, source);
     }
 
+    WebTile(int width, int height, String name, String iconDescription, String source, String background_img_source) {
+        super(width, height, name, iconDescription, source);
+        this.set_background_img(background_img_source);
+    }
+
     @Override
     public void status() {
         System.out.println("On Page");

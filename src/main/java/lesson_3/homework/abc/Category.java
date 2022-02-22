@@ -7,6 +7,7 @@ public abstract class Category {
     protected int height = 0;
     protected int border = 1;
     protected int background_color = 16777215;
+    protected String background_img;
     protected String source;
 
     public abstract void status();
@@ -69,6 +70,14 @@ public abstract class Category {
 
     public void set_background_color(int background_color) {
         this.background_color = background_color;
+    }
+
+    public String get_background_img(){
+        return this.background_img;
+    }
+
+    public void set_background_img(String background_img_source) {
+        this.background_img = background_img_source;
     }
 
     protected String get_name() {

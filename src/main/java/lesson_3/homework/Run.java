@@ -6,11 +6,17 @@ public class Run {
         System.out.println("===Test WebTile===============================================");
         WebTile tile = new WebTile(100, 50, "Смартфоны", "Категории сматфонов", "http://smartphones");
         WebTile tile2 = new WebTile(500, 80);
+        WebTile banner = new WebTile(1000, 200, "Баннер", "Главный баннер", "http://promo", "http://picture1");
+        WebTile tile_under_banner = new WebTile(1000, 20, "Плитка под баннером", "Плитка с преимуществами сайта", "http://advantage", "http://picture2");
         tile.status();
         System.out.println(tile.type);
         tile.show_description();
         tile.on_click();
         tile.on_focus();
+        banner.on_click();
+        banner.on_focus();
+        tile_under_banner.on_click();
+        tile_under_banner.on_focus();
 
         System.out.println("===Test WebContainer===============================================");
         WebContainer container = new WebContainer(1000, 200, "Контейнер поиска", "Контейнер для строки поиска и мюню поиска рядом");
