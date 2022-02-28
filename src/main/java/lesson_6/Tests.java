@@ -118,6 +118,7 @@ public class Tests {
      */
     public static void test_8() {
         List<WebElement> elements = getElements();
+
         ArrayList <AbstractMap.SimpleEntry<String, Type>> newEntry = new ArrayList<>();
         elements.forEach(el -> newEntry
                 .add(new AbstractMap.SimpleEntry<>(el.getText(), el.getType())));
@@ -136,8 +137,8 @@ public class Tests {
                         (el.getValue() != null && Integer.parseInt(el.getValue().substring(17))>=500))
                 .sorted((WebElement w1, WebElement w2) -> {
                     if (w1.getText()== null & w2.getText()== null) {return 0;}
-                    if (w1.getText()== null) {return -1;}
-                    if (w2.getText()== null) {return 1;}
+                    if (w1.getText()== null) {return 1;}
+                    if (w2.getText()== null) {return -1;}
                     int compare1 = w1.getText().compareTo(w2.getText());
                     if (compare1==0) {
                         if (w1.getValue()== null & w2.getValue()== null) {return 0;}
