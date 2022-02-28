@@ -1,27 +1,40 @@
 package lesson_6;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Console;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Tests {
     public static void main(String[] args) {
-        System.out.println();
+        //test_1();
+        //test_2();
+        //test_3();
+        //test_4();
+        //test_5();
+        //test_6();
+        test_7();
+        //test_8();
+        //test_9();
     }
 
     /**
      * Получить List чисел в виде текстовых элементов
      */
-    public void test_1() {
+    public static void test_1() {
         List<Integer> integerList = getIntList();
+        List<String> stringList = integerList.stream().map(Object::toString).toList();
+        System.out.println(stringList);
     }
 
     /**
      * Отсортировать список по убыванию
      */
-    public void test_2() {
+    public static void test_2() {
         List<Integer> integerList = getIntList();
+        integerList.sort(Comparator.reverseOrder());
+        System.out.println(integerList);
     }
 
     /**
@@ -30,15 +43,25 @@ public class Tests {
      * В начале итоговой строки должен быть текст "Number list: "
      * В конце итоговой строки должен быть текст "end of list.".
      */
-    public void test_3() {
+    public static void test_3() {
         List<String> stringList = getStringList();
+        String newString = stringList.stream()
+                .map(el -> el.replace(el, "Number - " + el))
+                .collect(Collectors.joining(", "));
+
+        System.out.println(newString);
     }
 
     /**
      * Получить мапу со значениями, ключи которых больше трех и меньше девяти
      */
-    public void test_4() {
+    public static void test_4() {
+
         Map<Integer, String> map = getMap();
+        Map <Integer, String> newMap = map.entrySet().stream()
+                .filter(entry -> entry.getKey()>3 & entry.getKey()<9)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        System.out.println(newMap);
     }
 
     /**
@@ -49,15 +72,26 @@ public class Tests {
      * Элемент 3: ключ - 2, значение "two"
      * и так далее.
      */
-    public void test_5() {
+    public static void test_5() {
         Map<Integer, String> map = getMap();
+        ArrayList<Map.Entry<Integer, String>> list = new ArrayList<>(map.entrySet());
+        Collections.shuffle(list);
+
+        Map<Integer, String> newMap = new LinkedHashMap<>();
+        list.forEach(key -> newMap.put(key.getKey(), key.getValue()));
+        System.out.println(newMap);
     }
 
     /**
      * Установить во всех элементах isDisplayed = true, и оставить в списке только элементы с value NULL.
      */
-    public void test_6() {
+    public static void test_6() {
         List<WebElement> elements = getElements();
+        List<WebElement> newList = elements.stream()
+                .peek(el -> el.setDisplayed(true))
+                .filter(el -> el.getValue() == null)
+                .toList();
+        System.out.println(newList);
     }
 
     /**
@@ -70,8 +104,16 @@ public class Tests {
      * 5. RADIO_BUTTON
      * 6. IMAGE
      */
-    public void test_7() {
+    public static void test_7() {
         List<WebElement> elements = getElements();
+
+        List <String> priorityList = Arrays.asList("TEXT", "INPUT_FIELD","CHECKBOX","BUTTON","RADIO_BUTTON","IMAGE");
+        List <WebElement> newList = elements.stream()
+                .peek(el -> el.setDisplayed(!el.isDisplayed()))
+//                .sorted((WebElement w1, WebElement w2) ->
+//                        -1 * (priorityList.indexOf(w1.getType()) - priorityList.indexOf(w2.getType())))
+                .toList();
+        System.out.println(newList);
     }
 
     /**
@@ -79,16 +121,37 @@ public class Tests {
      * ключ - текст
      * значение - тип элемента
      */
-    public void test_8() {
+    public static void test_8() {
         List<WebElement> elements = getElements();
+        ArrayList <AbstractMap.SimpleEntry<String, Type>> newEntry = new ArrayList<>();
+        elements.forEach(el -> newEntry
+                .add(new AbstractMap.SimpleEntry<>(el.getText(), el.getType())));
+        System.out.println(newEntry);
     }
 
     /**
      * Получить список элементов, у которых текст или значение оканчивается на число от 500 и более.
      * И отсортировать по увеличению сначала элементы с текстом, а затем по убыванию элементы со значением.
      */
-    public void test_9() {
+    public static void test_9() {
         List<WebElement> elements = getElements();
+
+        List<WebElement> newList = elements.stream()
+                .filter(el -> el.getText() != null && Integer.parseInt(el.getText().substring(16))>=500)
+                .sorted((WebElement w1, WebElement w2) -> {
+                    if (w1.getText()== null & w2.getText()== null) {return 0;}
+                    if (w1.getText()== null) {return -1;}
+                    if (w2.getText()== null) {return 1;}
+                    int compare1 = w1.getText().compareTo(w2.getText());
+                    if (compare1==0) {
+                        if (w1.getValue()== null & w2.getValue()== null) {return 0;}
+                        if (w1.getValue()== null) {return -1;}
+                        if (w2.getValue()== null) {return 1;}
+                        return w1.getValue().compareTo(w2.getValue());}
+                    return compare1;})
+                .toList();
+        System.out.println(newList);
+
     }
 
     public static Map<Integer, String> getMap() {
