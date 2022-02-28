@@ -13,7 +13,7 @@ public class Tests {
         //test_6();
         //test_7();
         //test_8();
-        //test_9();
+        test_9();
     }
 
     /**
@@ -42,9 +42,9 @@ public class Tests {
      */
     public static void test_3() {
         List<String> stringList = getStringList();
-        String newString = stringList.stream()
+        String newString = "Number list: "+ stringList.stream()
                 .map(el -> el.replace(el, "Number - " + el))
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(", ")) + "end of list.";
 
         System.out.println(newString);
     }
@@ -132,7 +132,8 @@ public class Tests {
         List<WebElement> elements = getElements();
 
         List<WebElement> newList = elements.stream()
-                .filter(el -> el.getText() != null && Integer.parseInt(el.getText().substring(16))>=500)
+                .filter(el -> (el.getText() != null && Integer.parseInt(el.getText().substring(16))>=500) |
+                        (el.getValue() != null && Integer.parseInt(el.getValue().substring(17))>=500))
                 .sorted((WebElement w1, WebElement w2) -> {
                     if (w1.getText()== null & w2.getText()== null) {return 0;}
                     if (w1.getText()== null) {return -1;}
