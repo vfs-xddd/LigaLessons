@@ -1,10 +1,7 @@
 package lesson_6;
 
-import java.io.Console;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Tests {
     public static void main(String[] args) {
@@ -14,7 +11,7 @@ public class Tests {
         //test_4();
         //test_5();
         //test_6();
-        test_7();
+        //test_7();
         //test_8();
         //test_9();
     }
@@ -107,11 +104,9 @@ public class Tests {
     public static void test_7() {
         List<WebElement> elements = getElements();
 
-        List <String> priorityList = Arrays.asList("TEXT", "INPUT_FIELD","CHECKBOX","BUTTON","RADIO_BUTTON","IMAGE");
-        List <WebElement> newList = elements.stream()
+                List <WebElement> newList = elements.stream()
                 .peek(el -> el.setDisplayed(!el.isDisplayed()))
-//                .sorted((WebElement w1, WebElement w2) ->
-//                        -1 * (priorityList.indexOf(w1.getType()) - priorityList.indexOf(w2.getType())))
+                .sorted(Comparator.comparingInt((WebElement w) -> w.getType().ordinal()))
                 .toList();
         System.out.println(newList);
     }

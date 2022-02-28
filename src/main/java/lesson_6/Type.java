@@ -1,10 +1,10 @@
 package lesson_6;
 
 public enum Type {
-    IMAGE,
     TEXT,
+    INPUT_FIELD,
+    CHECKBOX,
     BUTTON,
     RADIO_BUTTON,
-    CHECKBOX,
-    INPUT_FIELD;
+    IMAGE
 }
