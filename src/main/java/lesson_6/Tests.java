@@ -1,13 +1,11 @@
 package lesson_6;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Tests {
     public static void main(String[] args) {
-        System.out.println();
+        new Tests().test_7();
     }
 
     /**
@@ -15,13 +13,19 @@ public class Tests {
      */
     public void test_1() {
         List<Integer> integerList = getIntList();
+        List<String> stringList = integerList.stream().map(String::valueOf).toList();
     }
 
     /**
      * Отсортировать список по убыванию
      */
     public void test_2() {
-        List<Integer> integerList = getIntList();
+        List<Integer> integerList = getIntList().stream().sorted((item1, item2) -> {
+            int result = 0;
+            if (item1 < item2) result = 1;
+            else if (item1 > item2) result = -1;
+            return result;
+        }).toList();
     }
 
     /**
@@ -32,13 +36,19 @@ public class Tests {
      */
     public void test_3() {
         List<String> stringList = getStringList();
+        getStringList().stream()
+                .map(item -> "Number - " + item)
+                .collect(Collectors.joining(", ", "Number list: ", " end of list."));
     }
 
     /**
      * Получить мапу со значениями, ключи которых больше трех и меньше девяти
      */
     public void test_4() {
-        Map<Integer, String> map = getMap();
+        Map<Integer, String> map = getMap().entrySet()
+                .stream()
+                .filter(item -> item.getKey() > 3 && item.getKey() < 9)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     /**
@@ -50,14 +60,29 @@ public class Tests {
      * и так далее.
      */
     public void test_5() {
-        Map<Integer, String> map = getMap();
+        getMap().entrySet()
+                .stream()
+                .sorted((item1, item2) -> {
+                    int result = new Random().nextInt(3);
+                    if (result == 2) result = -1;
+                    return result;
+                }).collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (item1, item2) -> item1,
+                        LinkedHashMap::new)
+                );
     }
 
     /**
      * Установить во всех элементах isDisplayed = true, и оставить в списке только элементы с value NULL.
      */
     public void test_6() {
-        List<WebElement> elements = getElements();
+        List<WebElement> elements = getElements().stream().filter(element -> {
+            boolean result = Objects.isNull(element.getValue());
+            if (result) element.setDisplayed(true);
+            return result;
+        }).toList();
     }
 
     /**
@@ -71,7 +96,29 @@ public class Tests {
      * 6. IMAGE
      */
     public void test_7() {
-        List<WebElement> elements = getElements();
+        List<WebElement> elements = getElements().stream()
+                .sorted((item1, item2) -> {
+                    int result = 0;
+                    if (item1.getType().equals(Type.TEXT) && !item2.getType().equals(Type.TEXT)) result = -1;
+                    else if (item2.getType().equals(Type.TEXT) && !item1.getType().equals(Type.TEXT)) result = 1;
+                    else if (item1.getType().equals(Type.IMAGE) && !item2.getType().equals(Type.IMAGE)) result = 1;
+                    else if (item2.getType().equals(Type.IMAGE) && !item1.getType().equals(Type.IMAGE)) result = -1;
+                    else if (item1.getType().equals(Type.RADIO_BUTTON) && !item2.getType().equals(Type.RADIO_BUTTON))
+                        result = 1;
+                    else if (item2.getType().equals(Type.RADIO_BUTTON) && !item1.getType().equals(Type.RADIO_BUTTON))
+                        result = -1;
+                    else if (item1.getType().equals(Type.BUTTON) && !item2.getType().equals(Type.BUTTON)) result = 1;
+                    else if (item2.getType().equals(Type.BUTTON) && !item1.getType().equals(Type.BUTTON)) result = -1;
+                    else if (item1.getType().equals(Type.CHECKBOX) && !item2.getType().equals(Type.CHECKBOX))
+                        result = 1;
+                    else if (item2.getType().equals(Type.CHECKBOX) && !item1.getType().equals(Type.CHECKBOX))
+                        result = -1;
+                    else if (item1.getType().equals(Type.INPUT_FIELD) && !item2.getType().equals(Type.INPUT_FIELD))
+                        result = 1;
+                    else if (item2.getType().equals(Type.INPUT_FIELD) && !item1.getType().equals(Type.INPUT_FIELD))
+                        result = -1;
+                    return result;
+                }).toList();
     }
 
     /**
@@ -81,6 +128,9 @@ public class Tests {
      */
     public void test_8() {
         List<WebElement> elements = getElements();
+        Map<String, Type> map = elements.stream()
+                .filter(item -> Objects.nonNull(item.getText()))
+                .collect(Collectors.toMap(WebElement::getText, WebElement::getType));
     }
 
     /**
@@ -88,7 +138,40 @@ public class Tests {
      * И отсортировать по увеличению сначала элементы с текстом, а затем по убыванию элементы со значением.
      */
     public void test_9() {
-        List<WebElement> elements = getElements();
+        List<WebElement> elements = getElements().stream().filter(item -> {
+            String text = item.getText();
+            String value = item.getValue();
+            return (Objects.nonNull(text) && Integer.parseInt(text.replaceAll("\\D", "")) > 499)
+                    || (Objects.nonNull(value) && Integer.parseInt(value.replaceAll("\\D", "")) > 499);
+        }).sorted((item1, item2) -> {
+            String text1 = item1.getText();
+            String value1 = item1.getValue();
+            String text2 = item2.getText();
+            String value2 = item2.getValue();
+            int result = 0;
+            if (Objects.nonNull(text1) && Objects.nonNull(value2)) result = -1;
+            else if (Objects.nonNull(value1) && Objects.nonNull(text2)) result = 1;
+            return result;
+        }).sorted((item1, item2) -> {
+            String text1 = item1.getText();
+            String value1 = item1.getValue();
+
+            String text2 = item2.getText();
+            String value2 = item2.getValue();
+            int result = 0;
+            if (Objects.nonNull(text1) && Objects.nonNull(text2)) {
+                int num1 = Integer.parseInt(text1.replaceAll("\\D", ""));
+                int num2 = Integer.parseInt(text2.replaceAll("\\D", ""));
+                if (num1 > num2) result = 1;
+                else if (num1 < num2) result = -1;
+            } else if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+                int num1 = Integer.parseInt(value1.replaceAll("\\D", ""));
+                int num2 = Integer.parseInt(value2.replaceAll("\\D", ""));
+                if (num1 > num2) result = -1;
+                else if (num1 < num2) result = 1;
+            }
+            return result;
+        }).toList();
     }
 
     public static Map<Integer, String> getMap() {
