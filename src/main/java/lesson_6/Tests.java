@@ -60,14 +60,18 @@ public class Tests {
      * и так далее.
      */
     public void test_5() {
-        Map<Integer, String> map = new LinkedHashMap<>();
         getMap().entrySet()
                 .stream()
                 .sorted((item1, item2) -> {
                     int result = new Random().nextInt(3);
                     if (result == 2) result = -1;
                     return result;
-                }).forEach(item -> map.put(item.getKey(), item.getValue()));
+                }).collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (item1, item2) -> item1,
+                        LinkedHashMap::new)
+                );
     }
 
     /**
@@ -134,7 +138,40 @@ public class Tests {
      * И отсортировать по увеличению сначала элементы с текстом, а затем по убыванию элементы со значением.
      */
     public void test_9() {
-        List<WebElement> elements = getElements();
+        List<WebElement> elements = getElements().stream().filter(item -> {
+            String text = item.getText();
+            String value = item.getValue();
+            return (Objects.nonNull(text) && Integer.parseInt(text.replaceAll("\\D", "")) > 499)
+                    || (Objects.nonNull(value) && Integer.parseInt(value.replaceAll("\\D", "")) > 499);
+        }).sorted((item1, item2) -> {
+            String text1 = item1.getText();
+            String value1 = item1.getValue();
+            String text2 = item2.getText();
+            String value2 = item2.getValue();
+            int result = 0;
+            if (Objects.nonNull(text1) && Objects.nonNull(value2)) result = -1;
+            else if (Objects.nonNull(value1) && Objects.nonNull(text2)) result = 1;
+            return result;
+        }).sorted((item1, item2) -> {
+            String text1 = item1.getText();
+            String value1 = item1.getValue();
+
+            String text2 = item2.getText();
+            String value2 = item2.getValue();
+            int result = 0;
+            if (Objects.nonNull(text1) && Objects.nonNull(text2)) {
+                int num1 = Integer.parseInt(text1.replaceAll("\\D", ""));
+                int num2 = Integer.parseInt(text2.replaceAll("\\D", ""));
+                if (num1 > num2) result = 1;
+                else if (num1 < num2) result = -1;
+            } else if (Objects.nonNull(value1) && Objects.nonNull(value2)) {
+                int num1 = Integer.parseInt(value1.replaceAll("\\D", ""));
+                int num2 = Integer.parseInt(value2.replaceAll("\\D", ""));
+                if (num1 > num2) result = -1;
+                else if (num1 < num2) result = 1;
+            }
+            return result;
+        }).toList();
     }
 
     public static Map<Integer, String> getMap() {
